@@ -1,14 +1,31 @@
-!:
 |%
 ::
 ::  There should be some point where this core is given reference to
 ::  our say generator which produces a random 6 7 8 or 9.
 ::  I do recall Neal saying something about needing to change the 
 ::  time input for ++eny or it will give the same reesult?
+::
+::  This is a 1 coin toss, returns 1 or 0
+++  cointoss
+    :-  %say
+    |=  [[* eny=@uvJ *] *]
+    :-  %noun
+    ^-  @ud
+    =/  rng  ~(. og eny)
+    (rad:rng 1)
+    ::  
+    ::  This arm needs to run cointoss 3 times
 ++  threecointoss
-    =>  :: do we need to tell it do this then that?
-    /-  threecointoss.hoon
-    *   ::  Will this noun activate the %say?
+    |-
+    =/  counter  3
+    =/  threecoin  (limo [~])
+    ?.  =(counter 0)
+    ::  if no...
+    counter  (dec counter)
+    threecoin  (weld cointoss threecoin)
+    ::  if yes..
+    threecoin
+::  We could also have a gate that runs this 3 times. 
 ::
 ::  A gate which runs the 3cointoss generator
 ::  Note this gate 'accepts' x but there is no
